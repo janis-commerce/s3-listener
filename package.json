@@ -31,5 +31,8 @@
   ],
   "directories": {
     "test": "tests"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.556.0"
   }
 }
