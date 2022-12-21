@@ -1,7 +1,8 @@
 # s3-listener
 
-[![Build Status](https://travis-ci.org/janis-commerce/s3-listener.svg?branch=master)](https://travis-ci.org/janis-commerce/s3-listener)
+![Build Status](https://github.com/janis-commerce/s3-listener/workflows/Build%20Status/badge.svg)
 [![Coverage Status](https://coveralls.io/repos/github/janis-commerce/s3-listener/badge.svg?branch=master)](https://coveralls.io/github/janis-commerce/s3-listener?branch=master)
+[![npm version](https://badge.fury.io/js/%40janiscommerce%2Fs3-listener.svg)](https://www.npmjs.com/package/@janiscommerce/s3-listener)
 
 A package to handle the s3 event
 
@@ -13,7 +14,7 @@ npm install @janiscommerce/s3-listener
 
 ## Configuration
 
-If you are working with serverless framework and want to use the serverless-s3-local plugin you need to config the enviroment variable S3_LOCAL_ENDPOINT
+If you are working with serverless framework and want to use the serverless-s3-local plugin you need to config the environment variable S3_LOCAL_ENDPOINT
 
 ``` yml
 provider:
@@ -27,7 +28,7 @@ provider:
   environment:
     S3_LOCAL_ENDPOINT: http://localhost:30232
 
-custom: 
+custom:
   s3:
     port: 30232
     directory: ./tmp
@@ -44,7 +45,7 @@ This method is required, and should have the logic of your Listener.
 The following methods will be inherited from the base Listener Class:
 
 ### async getData()
-This method should return the data inside the S3 file (object) who generates the S3 event. 
+This method should return the data inside the S3 file (object) who generates the S3 event.
 
 ### Getters
 
@@ -52,7 +53,7 @@ This method should return the data inside the S3 file (object) who generates the
 Returns the name of the S3 bucket where the event is generated
 
 * **fileKey** (*getter*).
-Returns the key of the S3 object (file). This fileKey prop returns the filePrefix + filename + fileExtentions
+Returns the key of the S3 object (file). This fileKey prop returns the filePrefix + filename + fileExtensions
 
 * **filename** (*getter*).
 Returns the name of the file (S3 object).
@@ -60,7 +61,7 @@ Returns the name of the file (S3 object).
 * **filePrefix** (*getter*).
 Returns the prefix of the file (S3 object).
 
-* **fileExtention** (*getter*).
+* **fileExtension** (*getter*).
 Returns the extention of the file (S3 object).
 
 * **filesize** (*getter*).
