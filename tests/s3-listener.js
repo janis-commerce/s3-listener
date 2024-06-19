@@ -2,7 +2,7 @@
 
 const assert = require('assert');
 
-const sandbox = require('sinon').createSandbox();
+const sinon = require('sinon');
 
 const S3 = require('../lib/s3');
 
@@ -23,14 +23,15 @@ const jsonEvent = { ...event, fileKey: 'testing/test.json', fileExtention: 'json
 describe('S3 Listener Test', () => {
 
 	beforeEach(() => {
-		this.S3 = sandbox.stub(S3, 'get');
+		this.S3 = sinon.stub(S3, 'get');
 	});
 
 	afterEach(() => {
-		sandbox.restore();
+		sinon.restore();
 	});
 
 	it('Should return the properties inside the event pass through', () => {
+
 		const s3Listener = new S3Listener(event);
 
 		assert.deepStrictEqual(s3Listener.bucketName, event.bucketName);
@@ -43,6 +44,7 @@ describe('S3 Listener Test', () => {
 	});
 
 	it('Should return the S3 data', async () => {
+
 		const body = 'This is a testing data';
 		this.S3.returns(Promise.resolve({ Body: body }));
 
@@ -51,11 +53,11 @@ describe('S3 Listener Test', () => {
 
 		assert.deepStrictEqual(getData, body);
 
-		sandbox.assert.calledOnce(S3.get);
-		sandbox.assert.calledWithExactly(S3.get, { Bucket: event.bucketName, Key: event.fileKey });
+		sinon.assert.calledOnceWithExactly(S3.get, { Bucket: event.bucketName, Key: event.fileKey });
 	});
 
 	it('Should return the S3 JSON data', async () => {
+
 		const body = { test: 'testing' };
 		this.S3.returns(Promise.resolve({ Body: JSON.stringify(body) }));
 
@@ -64,7 +66,6 @@ describe('S3 Listener Test', () => {
 
 		assert.deepStrictEqual(getData, body);
 
-		sandbox.assert.calledOnce(S3.get);
-		sandbox.assert.calledWithExactly(S3.get, { Bucket: event.bucketName, Key: jsonEvent.fileKey });
+		sinon.assert.calledOnceWithExactly(S3.get, { Bucket: event.bucketName, Key: jsonEvent.fileKey });
 	});
 });

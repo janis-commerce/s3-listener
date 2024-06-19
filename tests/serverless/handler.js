@@ -7,6 +7,7 @@ const assert = require('assert');
 const sinon = require('sinon');
 
 const Events = require('@janiscommerce/events');
+const Log = require('@janiscommerce/log');
 
 const { ServerlessHandler, S3Listener } = require('../../lib');
 
@@ -45,6 +46,7 @@ describe('Serverless Handler Test', () => {
 	};
 
 	beforeEach(() => {
+		sinon.stub(Log, 'start');
 		sinon.stub(Events, 'emit');
 		sinon.stub(ValidListener.prototype, 'setProps');
 	});
@@ -56,6 +58,7 @@ describe('Serverless Handler Test', () => {
 	context('When event is invalid', () => {
 
 		afterEach(() => {
+			sinon.assert.notCalled(Log.start);
 			sinon.assert.notCalled(Events.emit);
 		});
 
@@ -113,6 +116,7 @@ describe('Serverless Handler Test', () => {
 	context('When listener is invalid', () => {
 
 		afterEach(() => {
+			sinon.assert.notCalled(Log.start);
 			sinon.assert.notCalled(Events.emit);
 		});
 
@@ -131,6 +135,7 @@ describe('Serverless Handler Test', () => {
 	context('When event and listener are valid', () => {
 
 		afterEach(() => {
+			sinon.assert.calledOnceWithExactly(Log.start);
 			sinon.assert.calledOnceWithExactly(Events.emit, 'janiscommerce.ended');
 		});
 
@@ -171,5 +176,4 @@ describe('Serverless Handler Test', () => {
 			});
 		});
 	});
-
 });
