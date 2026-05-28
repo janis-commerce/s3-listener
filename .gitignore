@@ -41,3 +41,4 @@ types/
 
 # debug function
 debug.js
+package-lock.json
