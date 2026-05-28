@@ -156,7 +156,6 @@ describe('Serverless Handler Test', () => {
 			});
 		});
 
-
 		it('Should throw an error when process throws an error', async () => {
 
 			const errorMessage = 'This is an error originated on listener process method';
