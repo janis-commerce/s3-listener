@@ -139,6 +139,22 @@ describe('Serverless Handler Test', () => {
 			sinon.assert.calledOnceWithExactly(Events.emit, 'janiscommerce.ended');
 		});
 
+		it('Should set the AWS_LAMBDA_REQUEST_ID env var with the context awsRequestId', async () => {
+
+			await assert.doesNotReject(ServerlessHandler.handle(ValidListener, validEvent, { awsRequestId: 'test-request-id' }));
+
+			assert.strictEqual(process.env.AWS_LAMBDA_REQUEST_ID, 'test-request-id');
+		});
+
+		it('Should set the AWS_LAMBDA_REQUEST_ID env var as empty if no context is received', async () => {
+
+			process.env.AWS_LAMBDA_REQUEST_ID = 'stale-request-id';
+
+			await assert.doesNotReject(ServerlessHandler.handle(ValidListener, validEvent));
+
+			assert.strictEqual(process.env.AWS_LAMBDA_REQUEST_ID, '');
+		});
+
 		it('Should process the event and set the properties to listener', async () => {
 
 			await assert.doesNotReject(ServerlessHandler.handle(ValidListener, validEvent));
