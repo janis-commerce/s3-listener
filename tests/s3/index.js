@@ -56,4 +56,16 @@ describe('S3 Wrapper Test', () => {
 		assert.ok(command instanceof GetObjectCommand);
 		assert.deepStrictEqual(command.input, s3Params);
 	});
+
+	it('Should return an empty Buffer when the S3 object body is empty', async () => {
+
+		this.send.resolves({
+			Body: { transformToByteArray: async () => new Uint8Array(0) }
+		});
+
+		const { Body } = await S3.get(s3Params);
+
+		assert.ok(Buffer.isBuffer(Body));
+		assert.strictEqual(Body.length, 0);
+	});
 });

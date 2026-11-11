@@ -18,10 +18,15 @@ describe('S3 Wrapper Client Test', () => {
 	};
 
 	beforeEach(() => {
-		originalEnv = { IS_OFFLINE: process.env.IS_OFFLINE, S3_LOCAL_ENDPOINT: process.env.S3_LOCAL_ENDPOINT };
+		originalEnv = {
+			IS_OFFLINE: process.env.IS_OFFLINE,
+			S3_LOCAL_ENDPOINT: process.env.S3_LOCAL_ENDPOINT,
+			AWS_REGION: process.env.AWS_REGION
+		};
 		originalCache = require.cache[wrapperPath];
 		delete process.env.IS_OFFLINE;
 		delete process.env.S3_LOCAL_ENDPOINT;
+		delete process.env.AWS_REGION;
 	});
 
 	afterEach(() => {
@@ -57,6 +62,27 @@ describe('S3 Wrapper Client Test', () => {
 		const credentials = await client.config.credentials();
 		assert.strictEqual(credentials.accessKeyId, 'S3RVER');
 		assert.strictEqual(credentials.secretAccessKey, 'S3RVER');
+	});
+
+	it('Should use us-east-1 as default region in local mode when AWS_REGION is not set', async () => {
+
+		process.env.IS_OFFLINE = 'true';
+		process.env.S3_LOCAL_ENDPOINT = 'http://localhost:4569';
+
+		const client = requireWrapper();
+
+		assert.strictEqual(await client.config.region(), 'us-east-1');
+	});
+
+	it('Should use AWS_REGION in local mode when it is set', async () => {
+
+		process.env.IS_OFFLINE = 'true';
+		process.env.S3_LOCAL_ENDPOINT = 'http://localhost:4569';
+		process.env.AWS_REGION = 'sa-east-1';
+
+		const client = requireWrapper();
+
+		assert.strictEqual(await client.config.region(), 'sa-east-1');
 	});
 
 	it('Should use the default client when not running offline', async () => {
