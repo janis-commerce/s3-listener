@@ -9,3 +9,5 @@ on:
 jobs:
   build:
     uses: janis-commerce/.github/.github/workflows/build-status.yml@master
+    with:
+      node-versions: '["22.x", "26.x"]'
