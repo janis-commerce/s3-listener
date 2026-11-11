@@ -12,9 +12,16 @@ A package to handle the s3 event
 npm install @janiscommerce/s3-listener
 ```
 
+## Breaking changes
+
+### 2.0.0
+- Requires Node.js 20 or higher. Lambdas running on `nodejs18.x` or older must stay on `1.x`.
+- Uses AWS SDK v3 (`@aws-sdk/client-s3`) instead of AWS SDK v2 (`aws-sdk`). The package no longer installs `aws-sdk`: if your service imports it directly, add it to your own dependencies.
+- The public API (`S3Listener`, `ServerlessHandler`, `getData()`) does not change.
+
 ## Configuration
 
-If you are working with serverless framework and want to use the serverless-s3-local plugin you need to config the environment variable S3_LOCAL_ENDPOINT
+If you are working with serverless framework and want to use the serverless-s3-local plugin you need to config the environment variable S3_LOCAL_ENDPOINT. The local client is only used when `IS_OFFLINE` is also set, and it uses the `AWS_REGION` environment variable (`us-east-1` if not set).
 
 ``` yml
 provider:

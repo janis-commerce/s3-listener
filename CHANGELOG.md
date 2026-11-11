@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [2.0.0] - 2026-11-11
+### Changed
+- Migrated from AWS SDK v2 (`aws-sdk`) to AWS SDK v3 (`@aws-sdk/client-s3`), so S3 file reading now works on Node.js 26 (https://janiscommerce.atlassian.net/browse/ATR-2755)
+
+### Removed
+- Support for Node.js versions lower than 20 (https://janiscommerce.atlassian.net/browse/ATR-2755)
+
 ## [1.2.0] - 2026-07-13
 ### Added
 - `ServerlessHandler.handle()` now uses the AWS Lambda context to set the `AWS_LAMBDA_REQUEST_ID` env var with the `awsRequestId` on every invocation
