@@ -36,7 +36,7 @@
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1166.0",
     "@janiscommerce/events": "^0.2.0",
-    "@janiscommerce/log": "^5.0.12"
+    "@janiscommerce/log": "^5.5.1"
   },
   "engines": {
     "node": ">=20"

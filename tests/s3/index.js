@@ -2,7 +2,7 @@
 
 const assert = require('assert');
 
-const sandbox = require('sinon').createSandbox();
+const sinon = require('sinon');
 
 const { GetObjectCommand } = require('@aws-sdk/client-s3');
 
@@ -18,11 +18,11 @@ const s3Params = {
 describe('S3 Wrapper Test', () => {
 
 	beforeEach(() => {
-		this.send = sandbox.stub(S3Wrapper, 'send');
+		this.send = sinon.stub(S3Wrapper, 'send');
 	});
 
 	afterEach(() => {
-		sandbox.restore();
+		sinon.restore();
 	});
 
 	it('Should throw an error when S3 get object return an error', async () => {
@@ -50,7 +50,7 @@ describe('S3 Wrapper Test', () => {
 		assert.deepStrictEqual(Body.toString('utf8'), data);
 		assert.deepStrictEqual(ContentType, 'application/json');
 
-		sandbox.assert.calledOnce(this.send);
+		sinon.assert.calledOnce(this.send);
 
 		const [command] = this.send.firstCall.args;
 		assert.ok(command instanceof GetObjectCommand);
